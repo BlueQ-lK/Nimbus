@@ -1,0 +1,45 @@
+{
+  "coord": {
+    "lon": 74.856,
+    "lat": 12.9141
+  },
+  "weather": [
+    {
+      "id": 801,
+      "main": "Clouds",
+      "description": "few clouds",
+      "icon": "02d"
+    }
+  ],
+  "base": "stations",
+  "main": {
+    "temp": 27.45,
+    "feels_like": 27.86,
+    "temp_min": 27.45,
+    "temp_max": 27.45,
+    "pressure": 1014,
+    "humidity": 50,
+    "sea_level": 1014,
+    "grnd_level": 1010
+  },
+  "visibility": 6000,
+  "wind": {
+    "speed": 4.12,
+    "deg": 90
+  },
+  "clouds": {
+    "all": 14
+  },
+  "dt": 1735705714,
+  "sys": {
+    "type": 1,
+    "id": 9217,
+    "country": "IN",
+    "sunrise": 1735694553,
+    "sunset": 1735735518
+  },
+  "timezone": 19800,
+  "id": 1263780,
+  "name": "Mangalore",
+  "cod": 200
+}

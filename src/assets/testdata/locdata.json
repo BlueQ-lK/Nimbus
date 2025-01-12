@@ -1,0 +1,57 @@
+[
+    {
+      "name": "Mangaluru",
+      "local_names": {
+        "lt": "Mangaloras",
+        "feature_name": "Mangalore",
+        "bn": "মাঙ্গালোর",
+        "pa": "ਮੈਂਗਲੁਰੂ",
+        "kn": "ಮಂಗಳೂರು",
+        "ur": "منگلور",
+        "te": "మంగళూరు",
+        "ml": "മംഗലാപുരം",
+        "ascii": "Mangalore",
+        "ja": "マンガロール",
+        "mr": "मंगळुर",
+        "ar": "منغلور",
+        "ru": "Мангалор",
+        "hi": "मंगलुरु",
+        "ta": "மங்களூர்",
+        "fa": "منگلور",
+        "en": "Mangaluru"
+      },
+      "lat": 12.8698101,
+      "lon": 74.8430082,
+      "country": "IN",
+      "state": "Karnataka"
+    },
+    {
+      "name": "Mangalore",
+      "lat": -36.924626,
+      "lon": 145.17083142450304,
+      "country": "AU",
+      "state": "Victoria"
+    },
+    {
+      "name": "Mangalore",
+      "local_names": {
+        "en": "Mangalore",
+        "kn": "ಮಂಗಳೂರ"
+      },
+      "lat": 15.9231076,
+      "lon": 75.7622963,
+      "country": "IN",
+      "state": "Karnataka"
+    },
+    {
+      "name": "Mangalore",
+      "local_names": {
+        "en": "Mangalore",
+        "ta": "மங்களூர்"
+      },
+      "lat": -42.6538942,
+      "lon": 147.2415779,
+      "country": "AU",
+      "state": "Tasmania"
+    }
+  ]
