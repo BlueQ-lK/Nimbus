@@ -101,8 +101,8 @@
                     <div class="airquality">
                         <div
                             class="bg-airQuality w-full h-14 rounded-lg text-black flex py-2 items-center justify-evenly px-1.5">
-                            <p class="font-semibold font-chakra text-3xl">{{ currentWeatherDet && currentWeatherDet.main
-                                ? Math.floor(airqu.list[0].components.pm2_5) : "n/a"
+                            <p class="font-semibold font-chakra text-3xl">{{ airQualityDet
+                                ? Math.floor(airQualityDet.list[0].components.pm2_5) : "n/a"
                                 }}</p>
                             <div>
                                 <p class=" font-medium text-[14px]">PM2.5</p>
@@ -110,7 +110,7 @@
                             </div>
                         </div>
                         <p class="mt-2 font-semibold tracking-wide text-center">{{
-                            airQualityIndex(airqu.list[0].main.aqi) }}</p>
+                            airQualityDet ? airQualityIndex(airQualityDet.list[0].main.aqi) : "N/A" }}</p>
                         <p class="text-center text-xs">Air Quality</p>
                         <hr class="mt-2 mb-3" />
                         <div class="flex mt-[5px] h-6 w-full items-center" v-for="i in 3" :key="i">
@@ -119,7 +119,8 @@
                                     }}</p>
                             </div>
                             <p class="ml-2 font-chakra text-[15px] font-semibold">{{
-                                Math.floor(airqu.list[0].components[i === 1 ? 'co' : (i === 2 ? 'no2' : 'so2')])
+                                airQualityDet ? Math.floor(airQualityDet.list[0].components[i === 1 ? 'co' : (i === 2 ?
+                                    'no2' : 'so2')]) : "n/a "
                             }} <span class="text-xs font-light">µg/m³</span></p>
                         </div>
                     </div>
@@ -170,6 +171,7 @@ const today = ref(true);
 const addressInput = ref("")
 const locdata = ref();
 const currentWeatherDet = ref(null);
+const airQualityDet = ref(null);
 
 onMounted(() => {
     weatherForecastapiCall(51.5074, 0.1278)
@@ -213,8 +215,17 @@ const searchClickEvent = async (address) => {
 }
 
 const weatherForecastapiCall = async (lat, lon) => {
-    const response = await axios.get(`http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=fe4a2cf874351c8fec62995edd68bb0e&units=metric`)
-    currentWeatherDet.value = response.data;
+    const apikey = "fe4a2cf874351c8fec62995edd68bb0e";
+    try {
+        const response = await axios.get(`http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apikey}&units=metric`)
+        currentWeatherDet.value = response.data;
+    }
+    catch (error) { console.log(error); }
+    try {
+        const airqualityResponse = await axios.get(`http://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${apikey}`)
+        airQualityDet.value = airqualityResponse.data;
+    }
+    catch (error) { console.log(error) };
 }
 
 </script>
