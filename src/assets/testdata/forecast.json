@@ -3,156 +3,8 @@
   "message": 0,
   "cnt": 40,
   "list": [
-    {
-      "dt": 1736780400,
-      "main": {
-        "temp": 301.6,
-        "feels_like": 304.56,
-        "temp_min": 300.21,
-        "temp_max": 301.6,
-        "pressure": 1011,
-        "sea_level": 1011,
-        "grnd_level": 1009,
-        "humidity": 69,
-        "temp_kf": 1.39
-      },
-      "weather": [
-        {
-          "id": 802,
-          "main": "Clouds",
-          "description": "scattered clouds",
-          "icon": "03n"
-        }
-      ],
-      "clouds": {
-        "all": 40
-      },
-      "wind": {
-        "speed": 0.98,
-        "deg": 270,
-        "gust": 1.12
-      },
-      "visibility": 10000,
-      "pop": 0,
-      "sys": {
-        "pod": "n"
-      },
-      "dt_txt": "2025-01-13 15:00:00"
-    },
-    {
-      "dt": 1736791200,
-      "main": {
-        "temp": 300.88,
-        "feels_like": 303.67,
-        "temp_min": 299.43,
-        "temp_max": 300.88,
-        "pressure": 1011,
-        "sea_level": 1011,
-        "grnd_level": 1009,
-        "humidity": 73,
-        "temp_kf": 1.45
-      },
-      "weather": [
-        {
-          "id": 802,
-          "main": "Clouds",
-          "description": "scattered clouds",
-          "icon": "03n"
-        }
-      ],
-      "clouds": {
-        "all": 38
-      },
-      "wind": {
-        "speed": 0.92,
-        "deg": 72,
-        "gust": 0.77
-      },
-      "visibility": 10000,
-      "pop": 0,
-      "sys": {
-        "pod": "n"
-      },
-      "dt_txt": "2025-01-13 18:00:00"
-    },
-    {
-      "dt": 1736802000,
-      "main": {
-        "temp": 299.45,
-        "feels_like": 299.45,
-        "temp_min": 298.38,
-        "temp_max": 299.45,
-        "pressure": 1010,
-        "sea_level": 1010,
-        "grnd_level": 1008,
-        "humidity": 79,
-        "temp_kf": 1.07
-      },
-      "weather": [
-        {
-          "id": 501,
-          "main": "Rain",
-          "description": "moderate rain",
-          "icon": "10n"
-        }
-      ],
-      "clouds": {
-        "all": 15
-      },
-      "wind": {
-        "speed": 1.55,
-        "deg": 50,
-        "gust": 1.44
-      },
-      "visibility": 10000,
-      "pop": 1,
-      "rain": {
-        "3h": 3.62
-      },
-      "sys": {
-        "pod": "n"
-      },
-      "dt_txt": "2025-01-13 21:00:00"
-    },
-    {
-      "dt": 1736812800,
-      "main": {
-        "temp": 298.79,
-        "feels_like": 299.47,
-        "temp_min": 298.79,
-        "temp_max": 298.79,
-        "pressure": 1010,
-        "sea_level": 1010,
-        "grnd_level": 1008,
-        "humidity": 79,
-        "temp_kf": 0
-      },
-      "weather": [
-        {
-          "id": 500,
-          "main": "Rain",
-          "description": "light rain",
-          "icon": "10n"
-        }
-      ],
-      "clouds": {
-        "all": 20
-      },
-      "wind": {
-        "speed": 2.27,
-        "deg": 76,
-        "gust": 1.74
-      },
-      "visibility": 10000,
-      "pop": 1,
-      "rain": {
-        "3h": 1.64
-      },
-      "sys": {
-        "pod": "n"
-      },
-      "dt_txt": "2025-01-14 00:00:00"
-    },
+
+
     {
       "dt": 1736823600,
       "main": {
@@ -187,7 +39,7 @@
       "sys": {
         "pod": "d"
       },
-      "dt_txt": "2025-01-14 03:00:00"
+      "dt_txt": "2025-01-13 03:00:00"
     },
     {
       "dt": 1736834400,
@@ -223,7 +75,7 @@
       "sys": {
         "pod": "d"
       },
-      "dt_txt": "2025-01-14 06:00:00"
+      "dt_txt": "2025-01-13 06:00:00"
     },
     {
       "dt": 1736845200,
@@ -259,7 +111,7 @@
       "sys": {
         "pod": "d"
       },
-      "dt_txt": "2025-01-14 09:00:00"
+      "dt_txt": "2025-01-13 09:00:00"
     },
     {
       "dt": 1736856000,
@@ -295,7 +147,7 @@
       "sys": {
         "pod": "d"
       },
-      "dt_txt": "2025-01-14 12:00:00"
+      "dt_txt": "2025-01-13 12:00:00"
     },
     {
       "dt": 1736866800,
@@ -334,7 +186,7 @@
       "sys": {
         "pod": "n"
       },
-      "dt_txt": "2025-01-14 15:00:00"
+      "dt_txt": "2025-01-13 15:00:00"
     },
     {
       "dt": 1736877600,
@@ -373,7 +225,7 @@
       "sys": {
         "pod": "n"
       },
-      "dt_txt": "2025-01-14 18:00:00"
+      "dt_txt": "2025-01-13 18:00:00"
     },
     {
       "dt": 1736888400,
@@ -412,7 +264,7 @@
       "sys": {
         "pod": "n"
       },
-      "dt_txt": "2025-01-14 21:00:00"
+      "dt_txt": "2025-01-13 21:00:00"
     },
     {
       "dt": 1736899200,

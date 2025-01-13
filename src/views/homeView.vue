@@ -127,14 +127,10 @@
                     <div class="map"></div>
                 </div>
                 <div class="flex justify-between p-3 w-52 text-lg font-light mt-2">
-                    <p class="cursor-pointer" @click="today = true" :class="{ 'font-medium': today, }">Today</p>
-                    <p class="cursor-pointer" @click="today = false" :class="{ 'font-medium': !today }">
-                        Next 6 days
-                    </p>
+                    <p>Weather Forecast</p>
                 </div>
                 <div class=" detailForecast">
-                    <chartComp v-if="today" :dataparent="childata" />
-                    <chartofweeks v-if="!today" />
+                    <chartComp :dataparent="childata" />
                 </div>
             </div>
             <div class="right-box">
@@ -154,7 +150,6 @@
 import { onMounted, ref, onUnmounted } from 'vue';
 import { Icon } from '@iconify/vue';
 import chartComp from '@/components/chartComp.vue';
-import chartofweeks from '@/components/chartofweeks.vue';
 import { getCoordFromLocation } from '@/components/locations.js'
 import axios from 'axios';
 import forecast from '../assets/testdata/forecast.json';
@@ -167,7 +162,6 @@ const weekData = ref([
     { day: "Sat", icon: "http://openweathermap.org/img/wn/11n@2x.png", temperature: 23 },
     { day: "Sun", icon: "http://openweathermap.org/img/wn/11n@2x.png", temperature: 23 }
 ]);
-const today = ref(true);
 const addressInput = ref("")
 const locdata = ref();
 const currentWeatherDet = ref(null);

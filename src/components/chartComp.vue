@@ -1,5 +1,15 @@
 <template>
     <div class="flex overflow-hidden">
+        <div
+            class="bg-forecastbox w-14 h-full text-black rounded-md flex flex-col justify-evenly items-center font-medium mr-4">
+            <button @click="updatechartdata('Sun')">Sun</button>
+            <button @click="updatechartdata('Mon')">Mon</button>
+            <button @click="updatechartdata('Tue')">Tue</button>
+            <button @click="updatechartdata('Wed')">Wed</button>
+            <button @click="updatechartdata('Thu')">Thu</button>
+            <button @click="updatechartdata('Fri')">Fri</button>
+            <button @click="updatechartdata('Sat')">Sat</button>
+        </div>
         <canvas id="chartCanvas"></canvas>
         <div class="border ml-2 border-neutral-600 mr-3"></div>
         <div class="w-[250px] ">
@@ -38,11 +48,13 @@ import { Icon } from '@iconify/vue';
 
 
 
-const labels = ref(['00:00', '3:00', '6:00', '9:00', '12:00', '15:00', '18:00', '21:00']);
+const labels = ref(['00:00', '03:00', '06:00', '09:00', '12:00', '15:00', '18:00', '21:00']);
 const dataindex = ref(0);
 let myChart = null;
 let grapWeatherData = ref([]);
-let chartData = ref([])
+let chartData = ref([]);
+const dateList = ref({});
+const inputDate = ref(null);
 
 const props = defineProps({
     dataparent: {
@@ -53,13 +65,15 @@ const props = defineProps({
 })
 
 const chartDataExtracter = () => {
-    const currentdate = new Date().toISOString().split('T')[0];
+    //const currentdate = new Date().toISOString().split('T')[0];
+    const currentdate = dateList.value[inputDate.value]
+    console.log(currentdate)
     const filterDataforchart = props.dataparent.list.filter((item) => item.dt_txt.startsWith(currentdate));
     chartData.value = labels.value.map((ele) => {
         const item = filterDataforchart.find((item) => ele === item.dt_txt.slice(11, 16));
         return item ? item.main.temp : null;
     });
-
+    console.log(chartData.value)
 }
 
 const initial = () => {
@@ -93,24 +107,38 @@ const initial = () => {
     })
 }
 
-const updateChart = () => {
-    if (myChart && props.dataparent) {
-        myChart.data.datasets[0].data = chartData.value;
-        myChart.update();
+onUnmounted(() => {
+    if (myChart) {
+        myChart.destroy();
     }
-}
+});
 
-onMounted(() => {
-    if (props.dataparent) {
-        initial();
-    }
-})
+const updatechartdata = (item) => {
+    inputDate.value = item;
+    chartDataExtracter();
+    myChart.data.datasets[0].data = chartData.value;
+    myChart.update();
+};
+
+const getDayofweek = (date) => {
+    const days = ref(['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']);
+    const d = new Date(date);
+    return days.value[d.getDay()];
+}
 
 watchEffect(() => {
     if (props.dataparent) {
-        chartDataExtracter();
+
+        const dateSet = new Set();
+        props.dataparent.list.forEach(element => {
+            dateSet.add(element.dt_txt.slice(0, 10));
+        });
+
+        for (const i of dateSet) {
+            dateList.value[getDayofweek(i)] = i;
+        }
+        console.log(dateList.value)
         if (myChart) {
-            updateChart();
             myChart.canvas.onclick = onclickevent;
         } else {
             initial();
@@ -120,7 +148,7 @@ watchEffect(() => {
 });
 
 const onclickevent = (click) => {
-    const points = myChart.getElementsAtEventForMode(click, 'nearest', { intersect: false }, true);
+    const points = myChart.getElementsAtEventForMode(click, 'nearest', { intersect: true }, true);
     if (points[0]) {
         dataindex.value = points[0].index;
 
