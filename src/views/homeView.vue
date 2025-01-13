@@ -133,7 +133,7 @@
                     </p>
                 </div>
                 <div class=" detailForecast">
-                    <chartComp v-if="today" />
+                    <chartComp v-if="today" :dataparent="childata" />
                     <chartofweeks v-if="!today" />
                 </div>
             </div>
@@ -151,13 +151,13 @@
 <!-- javascript -->
 
 <script setup>
-import { onMounted, ref } from 'vue';
-import airqu from '../assets/testdata/airPollution.json';
+import { onMounted, ref, onUnmounted } from 'vue';
 import { Icon } from '@iconify/vue';
 import chartComp from '@/components/chartComp.vue';
 import chartofweeks from '@/components/chartofweeks.vue';
 import { getCoordFromLocation } from '@/components/locations.js'
 import axios from 'axios';
+import forecast from '../assets/testdata/forecast.json';
 
 const weekData = ref([
     { day: "Tue", icon: "http://openweathermap.org/img/wn/11n@2x.png", temperature: 23 },
@@ -173,9 +173,19 @@ const locdata = ref();
 const currentWeatherDet = ref(null);
 const airQualityDet = ref(null);
 
+const childata = ref(null);
+
 onMounted(() => {
     weatherForecastapiCall(51.5074, 0.1278)
 })
+
+onUnmounted(() => {
+    if (myChart) {
+        myChart.destroy();
+        myChart = null;
+    }
+});
+
 
 const dateFormater = (date) => {
     return new Date(date * 1000).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric' });
@@ -198,18 +208,12 @@ const airQualityIndex = (data) => {
 
 const searchClickEvent = async (address) => {
     if (address) {
-        try {
-            locdata.value = await getCoordFromLocation(address)
-            if (locdata.value[0]) {
-                const lat = locdata.value[0].lat;
-                const lon = locdata.value[0].lon
-                weatherForecastapiCall(lat, lon);
-            }
-            else {
-                console.log("unsuccess")
-            }
-        } catch (error) {
-            console.log(error)
+        const location = await getCoordFromLocation(address)
+        if (Object.keys(location).length !== 0) {
+            weatherForecastapiCall(location.lat, location.lon);
+        }
+        else {
+            console.log("empty location")
         }
     }
 }
@@ -226,6 +230,11 @@ const weatherForecastapiCall = async (lat, lon) => {
         airQualityDet.value = airqualityResponse.data;
     }
     catch (error) { console.log(error) };
+    try {
+        const forecastResponse = await axios.get(`http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apikey}&units=metric`);
+        childata.value = forecastResponse.data;
+    }
+    catch (error) { console.log(error); }
 }
 
 </script>

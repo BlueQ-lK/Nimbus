@@ -4,12 +4,15 @@
         <div class="border ml-2 border-neutral-600 mr-3"></div>
         <div class="w-[250px] ">
             <div class="w-full h-10 bg-forecastbox rounded-lg flex items-center justify-between px-2 text-black">
-                <p class="font-normal">Monday</p>
-                <p class="font-chakra font-semibold text-[18px]">{{ forecast.list[dataindex].dt_txt.slice(11, 16) }}
+                <p class="font-normal" v-if="dataparent">Monday</p>
+                <p v-else>Loading...</p>
+                <p class="font-chakra font-semibold text-[18px]">{{ dataparent ?
+                    dataparent.list[dataindex].dt_txt.slice(11, 16) : null }}
                 </p>
             </div>
             <div class="flex items-center justify-center flex-col ">
-                <p class="mt-5 text-6xl font-bold font-chakra">{{ forecast.list[dataindex].main.temp }}<sup>c</sup>
+                <p class="mt-5 text-6xl font-bold font-chakra">{{ dataparent ?
+                    dataparent.list[dataindex].main.temp : null }}<sup>c</sup>
                 </p>
                 <p class="text-[10px] font-light">Feels like 28.09</p>
             </div>
@@ -29,14 +32,36 @@
 
 <script setup>
 import { Chart } from 'chart.js/auto';
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted, watch, watchEffect } from 'vue';
 import forecast from '../assets/testdata/forecast.json';
 import { Icon } from '@iconify/vue';
+
+
 
 const labels = ref(['00:00', '3:00', '6:00', '9:00', '12:00', '15:00', '18:00', '21:00']);
 const dataindex = ref(0);
 let myChart = null;
-let grapWeatherData = ref()
+let grapWeatherData = ref([]);
+let chartData = ref([])
+
+const props = defineProps({
+    dataparent: {
+        type: Object,
+        required: false,
+        default: null
+    }
+})
+
+const chartDataExtracter = () => {
+    const currentdate = new Date().toISOString().split('T')[0];
+    const filterDataforchart = props.dataparent.list.filter((item) => item.dt_txt.startsWith(currentdate));
+    chartData.value = labels.value.map((ele) => {
+        const item = filterDataforchart.find((item) => ele === item.dt_txt.slice(11, 16));
+        return item ? item.main.temp : null;
+    });
+
+}
+
 const initial = () => {
     const ctx = document.getElementById('chartCanvas').getContext('2d');
     myChart = new Chart(ctx, {
@@ -45,7 +70,7 @@ const initial = () => {
             labels: labels.value,
             datasets: [{
                 label: 'Temparature:',
-                data: forecast.list.map((item) => item.main.temp),
+                data: chartData.value,
                 backgroundColor: 'rgb(255, 99, 132)',
                 borderColor: 'rgb(255, 99, 132)',
             }]
@@ -68,26 +93,44 @@ const initial = () => {
     })
 }
 
+const updateChart = () => {
+    if (myChart && props.dataparent) {
+        myChart.data.datasets[0].data = chartData.value;
+        myChart.update();
+    }
+}
 
 onMounted(() => {
-    initial();
+    if (props.dataparent) {
+        initial();
+    }
+})
 
-    myChart.canvas.onclick = onclickevent;
+watchEffect(() => {
+    if (props.dataparent) {
+        chartDataExtracter();
+        if (myChart) {
+            updateChart();
+            myChart.canvas.onclick = onclickevent;
+        } else {
+            initial();
+            myChart.canvas.onclick = onclickevent;
+        }
+    }
 });
 
 const onclickevent = (click) => {
     const points = myChart.getElementsAtEventForMode(click, 'nearest', { intersect: false }, true);
     if (points[0]) {
         dataindex.value = points[0].index;
+
         grapWeatherData = [
-            ["wind", "tabler:wind", "green", forecast.list[dataindex.value].wind.speed, "km"],
-            ["Humidity", "lets-icons:humidity", "red", forecast.list[dataindex.value].main.humidity, "%"],
-            ["Pressure", "lets-icons:pressure", "red", forecast.list[dataindex.value].main.pressure, "MB"],
-            ["visibility", "material-symbols:visibility-outline", "red", forecast.list[dataindex.value].visibility / 1000, "km"]
+            ["wind", "tabler:wind", "green", props.dataparent.list[dataindex.value].wind.speed, "km"],
+            ["Humidity", "lets-icons:humidity", "red", props.dataparent.list[dataindex.value].main.humidity, "%"],
+            ["Pressure", "lets-icons:pressure", "red", props.dataparent.list[dataindex.value].main.pressure, "MB"],
+            ["visibility", "material-symbols:visibility-outline", "red", props.dataparent.list[dataindex.value].visibility / 1000, "km"]
         ]
+
     }
 }
 </script>
-
-
-<style scoped></style>
