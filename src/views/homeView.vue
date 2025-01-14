@@ -21,9 +21,9 @@
                         <div class="flex justify-between items-top">
                             <div>
                                 <p class="text-xs font-light">Current weather</p>
-                                <p class="text-xs font-light text-slate-400">12:45</p>
+                                <p class="text-xs font-light text-slate-400">{{ currentTimeToDisplay }}</p>
                             </div>
-                            <p class="font-medium tracking-wider">Monday</p>
+                            <p class="font-medium tracking-wider">{{ presentDayname }}</p>
                         </div>
                         <div class="cur-temp">
                             <div class="flex ">
@@ -124,7 +124,9 @@
                             }} <span class="text-xs font-light">µg/m³</span></p>
                         </div>
                     </div>
-                    <div class="map"></div>
+                    <div class="map">
+                        <mapComp />
+                    </div>
                 </div>
                 <div class="flex justify-between p-3 w-52 text-lg font-light mt-2">
                     <p>Weather Forecast</p>
@@ -152,7 +154,7 @@ import { Icon } from '@iconify/vue';
 import chartComp from '@/components/chartComp.vue';
 import { getCoordFromLocation } from '@/components/locations.js'
 import axios from 'axios';
-import forecast from '../assets/testdata/forecast.json';
+import mapComp from '../components/mapComp.vue'
 
 const weekData = ref([
     { day: "Tue", icon: "http://openweathermap.org/img/wn/11n@2x.png", temperature: 23 },
@@ -166,19 +168,19 @@ const addressInput = ref("")
 const locdata = ref();
 const currentWeatherDet = ref(null);
 const airQualityDet = ref(null);
-
 const childata = ref(null);
+let currentTimeToDisplay = ref("");
+
+const presentDayname = new Date().toLocaleString('en-US', { weekday: 'long' });
+setInterval(() => {
+    let date = new Date();
+    currentTimeToDisplay.value = date.toLocaleTimeString();
+}, 1000)
 
 onMounted(() => {
-    weatherForecastapiCall(51.5074, 0.1278)
+    weatherForecastapiCall(51.5074, 0.1278);
 })
 
-onUnmounted(() => {
-    if (myChart) {
-        myChart.destroy();
-        myChart = null;
-    }
-});
 
 
 const dateFormater = (date) => {
