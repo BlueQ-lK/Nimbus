@@ -48,9 +48,9 @@
     --color-heading: var(--vt-c-text-dark-1);
     --color-text: var(--vt-c-text-dark-2);
 
-    --light-bg-color: #27272D;
+    --light-bg-color: #2b322f7e;
     
-    --dark-bg-color: rgba(17,16,21,1);
+    --dark-bg-color: #18171f;
 
     --default-border-radius: 1.1rem;
   }

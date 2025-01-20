@@ -4,7 +4,7 @@
 
 <script setup>
 import leaflet, { map } from 'leaflet';
-import { ref, onMounted, defineProps } from 'vue';
+import { ref, onMounted } from 'vue';
 import 'leaflet.fullscreen/Control.FullScreen.js';
 import 'leaflet.fullscreen/Control.FullScreen.css';
 

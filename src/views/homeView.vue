@@ -1,13 +1,20 @@
 <template>
     <div>
         <div class="nav-bar">
-            <div class="flex">
+            <div class="flex w-64">
                 <Icon icon="tdesign:location" width="24" height="24" />
-                <!-- <p>{{ locdata[0].name + ", " + locdata[0].state + ", " + locdata[0].country }}</p> -->
+                <p v-if="location && location.name">{{ location.name }}, </p>
+                <p v-if="location && location.state" class="ml-2"> {{ location.state }}, </p>
+                <p v-if="location && location.country" class="ml-2">{{ location.country }} </p>
+                <p v-else>Londan</p>
+            </div>
+            <div>
+                <h1 class="logo cursor-default"><span class="text-red-600 font-bold">N</span>imbus</h1>
             </div>
             <div>
                 <div class="search-bar">
-                    <input type="text" placeholder="Search for a city" class="search-input" v-model="addressInput" />
+                    <input type="text" placeholder="Search for a city" class="search-input" v-model="addressInput"
+                        @keydown.enter="searchClickEvent(addressInput)" />
                     <div class="w-20 flex items-center bg-black rounded-r-[24px] justify-center h-full ">
                         <Icon icon="bx:bx-search" width="24" height="24" @click="searchClickEvent(addressInput)" />
                     </div>
@@ -29,7 +36,7 @@
                             <div class="flex ">
                                 <p class="mt-5 mb-4 text-6xl font-bold font-chakra">{{
                                     currentWeatherDet && currentWeatherDet.main ?
-                                        Math.floor(currentWeatherDet.main.temp) : "N/A"
+                                        Math.floor(currentWeatherDet.main.temp) : null
                                 }}°<sup>c</sup>
                                 </p>
                                 <img :src="`http://openweathermap.org/img/wn/${currentWeatherDet ? currentWeatherDet.weather[0].icon : null}@2x.png`"
@@ -136,9 +143,14 @@
                 </div>
             </div>
             <div class="right-box">
-                <div class="locationOption">
-                    <div v-for="(item, index) in locdata" :key="index">
-                        <p>{{ item.name + ", " + item.state + ", " + item.country }}</p>
+                <div class=" w-full h-28 mb-5 flex items-center cursor-pointer justify-center    hover:bg-slate-600 rounded-lg"
+                    v-for="(item, index) in newsResult" :key="index"
+                    @click="openNewsPageOnclick(item.news_obj.source_url)">
+                    <img :src="item.news_obj.image_url" alt="" class="w-24 h-full mr-4 rounded-lg">
+                    <div>
+                        <p class="font-light text-sm line-clamp-4 max-h20">{{ item.news_obj.title }}</p>
+                        <p class="font-extralight text-[12px]  text-slate-400 mt-1">Source: {{
+                            item.news_obj.source_name }}</p>
                     </div>
                 </div>
             </div>
@@ -156,20 +168,19 @@ import { getCoordFromLocation } from '@/components/locations.js'
 import axios from 'axios';
 import mapComp from '../components/mapComp.vue'
 
-const weekData = ref([
-    { day: "Tue", icon: "http://openweathermap.org/img/wn/11n@2x.png", temperature: 23 },
-    { day: "Wed", icon: "http://openweathermap.org/img/wn/11n@2x.png", temperature: 23 },
-    { day: "Thu", icon: "http://openweathermap.org/img/wn/11n@2x.png", temperature: 23 },
-    { day: "Fri", icon: "http://openweathermap.org/img/wn/11n@2x.png", temperature: 23 },
-    { day: "Sat", icon: "http://openweathermap.org/img/wn/11n@2x.png", temperature: 23 },
-    { day: "Sun", icon: "http://openweathermap.org/img/wn/11n@2x.png", temperature: 23 }
-]);
 const addressInput = ref("")
-const locdata = ref();
 const currentWeatherDet = ref(null);
 const airQualityDet = ref(null);
 const childata = ref(null);
 let currentTimeToDisplay = ref("");
+const location = ref(null)
+const newsResult = ref(null);
+
+
+const openNewsPageOnclick = (item) => {
+    window.open(item, '_blank');
+}
+
 
 const presentDayname = new Date().toLocaleString('en-US', { weekday: 'long' });
 setInterval(() => {
@@ -179,9 +190,15 @@ setInterval(() => {
 
 onMounted(() => {
     weatherForecastapiCall(51.5074, 0.1278);
+    newsInformation();
 })
 
-
+const newsInformation = async () => {
+    try {
+        const response = await axios.get('https://cors-anywhere.herokuapp.com/https://inshorts.com/api/en/news?category=all_news&max_limit=5&include_card_data=true');
+        newsResult.value = response.data.data.news_list
+    } catch (error) { console.log(error) }
+}
 
 const dateFormater = (date) => {
     return new Date(date * 1000).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric' });
@@ -204,9 +221,9 @@ const airQualityIndex = (data) => {
 
 const searchClickEvent = async (address) => {
     if (address) {
-        const location = await getCoordFromLocation(address)
-        if (Object.keys(location).length !== 0) {
-            weatherForecastapiCall(location.lat, location.lon);
+        location.value = await getCoordFromLocation(address)
+        if (Object.keys(location.value).length !== 0) {
+            weatherForecastapiCall(location.value.lat, location.value.lon);
         }
         else {
             console.log("empty location")
@@ -244,10 +261,18 @@ const weatherForecastapiCall = async (lat, lon) => {
     box-sizing: border-box;
 }
 
+.logo {
+    font-size: 25px;
+    font-family: "Cinzel Decorative", serif;
+    font-weight: 400;
+    font-style: normal;
+    letter-spacing: 2px;
+}
+
 .nav-bar {
     display: flex;
     justify-content: space-between;
-    align-items: end;
+    align-items: center;
     height: 2.5rem;
     margin-bottom: 1.6rem;
 }
@@ -292,11 +317,12 @@ const weatherForecastapiCall = async (lat, lon) => {
 }
 
 .right-box {
+    background: var(--light-bg-color);
     width: 30rem;
     height: 43rem;
-    z-index: 1111;
+    border-radius: var(--default-border-radius);
+    padding: 1.5rem;
 }
-
 
 
 .sundetail {
@@ -331,12 +357,5 @@ const weatherForecastapiCall = async (lat, lon) => {
     border-radius: var(--default-border-radius);
     display: flex;
     padding: 1rem;
-}
-
-.locationOption {
-    background: var(--light-bg-color);
-    width: 28rem;
-    height: 19rem;
-    border-radius: var(--default-border-radius);
 }
 </style>

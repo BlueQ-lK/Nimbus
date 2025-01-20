@@ -9,12 +9,15 @@ export default {
       fontFamily: {
         chakra: ['"Chakra Petch"', 'serif'], 
       },
+      backgroundImage: {
+        airQuality: "linear-gradient(to top right, #33ccff 0%, #00ffcc 100%);",
+      },
       backgroundColor: {
-        airQuality: "#93CC4B",
-        forecastbox: "#65B963"
+        forecastbox: "rgb(79, 203, 77)"
       }
     },
   },
-  plugins: [],
+  plugins: [
+  ],
 }
 

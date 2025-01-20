@@ -102,6 +102,7 @@ const initial = () => {
                 data: chartData.value,
                 backgroundColor: 'rgb(255, 99, 132)',
                 borderColor: 'rgb(255, 99, 132)',
+                pointBorderWidth: 4,
             }]
         },
         options: {
@@ -161,7 +162,7 @@ watchEffect(() => {
 });
 
 const onclickevent = (click) => {
-    const points = myChart.getElementsAtEventForMode(click, 'nearest', { intersect: true }, true);
+    const points = myChart.getElementsAtEventForMode(click, 'nearest', { intersect: false }, true);
     if (points[0]) {
         dataindex.value = points[0].index;
 
@@ -172,10 +173,10 @@ const onclickevent = (click) => {
         console.log(dataindex.value)
         console.log(filterChartOnPoints.value[dataindex.value].main.temp)
         grapWeatherData = [
-            ["wind", "tabler:wind", "green", filterChartOnPoints.value[dataindex.value].wind.speed, "km"],
-            ["Humidity", "lets-icons:humidity", "red", filterChartOnPoints.value[dataindex.value].main.humidity, "%"],
-            ["Pressure", "lets-icons:pressure", "red", filterChartOnPoints.value[dataindex.value].main.pressure, "MB"],
-            ["visibility", "material-symbols:visibility-outline", "red", filterChartOnPoints.value[dataindex.value].visibility / 1000, "km"]
+            ["wind", "tabler:wind", "#00ff00", filterChartOnPoints.value[dataindex.value].wind.speed, "km"],
+            ["Humidity", "lets-icons:humidity", "#33ccff", filterChartOnPoints.value[dataindex.value].main.humidity, "%"],
+            ["Pressure", "lets-icons:pressure", "#ff0000", filterChartOnPoints.value[dataindex.value].main.pressure, "MB"],
+            ["visibility", "material-symbols:visibility-outline", "white", filterChartOnPoints.value[dataindex.value].visibility / 1000, "km"]
         ]
 
     }
