@@ -1,29 +1,26 @@
-# nimbus
+# Nimbus
 
-This template should help get you started developing with Vue 3 in Vite.
+A simple weather forecast website built using the Vue.js framework and chart.js. Get real-time weather updates and daily forecasts presented in an interactive chart view for easy visualization.
 
-## Recommended IDE Setup
+## 👀Screenshots
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+![Image](https://github.com/user-attachments/assets/ca1898b8-02b1-44d4-92ce-a5533cad7e7d)
 
-## Customize configuration
+## 🌤️Getting Started
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+- Download [nmap](https://nmap.org/download.html), an open-source tool for network discovery and security auditing.
+- Install [Node.js](https://nodejs.org/en/download/package-manager), is an open source server environment.
+- Get an API key from [OpenWeatherMap](https://openweathermap.org/)
+- Under the `views` directory, navigate to the `homeView.vue` file and replace `apikey` with your OpenWeatherMap API key.
 
-## Project Setup
+## 🔱Install
 
-```sh
-npm install
+- Clone the repository:
+
+```bash
+https://github.com/BlueQ-lK/Nimbus.git
 ```
 
-### Compile and Hot-Reload for Development
+- Install the packages using the command `npm install`
 
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
+- Run using `npm run dev`

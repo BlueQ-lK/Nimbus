@@ -168,6 +168,9 @@ import { getCoordFromLocation } from '@/components/locations.js'
 import axios from 'axios';
 import mapComp from '../components/mapComp.vue'
 
+
+const apikey = "";  //add your apikey
+
 const addressInput = ref("")
 const currentWeatherDet = ref(null);
 const airQualityDet = ref(null);
@@ -232,7 +235,6 @@ const searchClickEvent = async (address) => {
 }
 
 const weatherForecastapiCall = async (lat, lon) => {
-    const apikey = "fe4a2cf874351c8fec62995edd68bb0e";
     try {
         const response = await axios.get(`http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apikey}&units=metric`)
         currentWeatherDet.value = response.data;
